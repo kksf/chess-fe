@@ -1,4 +1,4 @@
-import Constant from "../Constant";
+import Constant from "../Constant"
 
 class MovePawn {
     row
@@ -30,7 +30,7 @@ class MovePawn {
 
         if(newRow < 1 || newRow > 8) {
             // Skip, the move is outside the game board
-            return;
+            return
         }
 
         return newRow

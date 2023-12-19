@@ -1,5 +1,5 @@
-import MoveInLine from "../moves/MoveInLine";
-import MoveInDiagonal from "../moves/MoveInDiagonal";
+import MoveInLine from "../moves/MoveInLine"
+import MoveInDiagonal from "../moves/MoveInDiagonal"
 
 class Queen {
     MoveInLine
@@ -21,4 +21,4 @@ class Queen {
     }
 }
 
-export default Queen;
+export default Queen

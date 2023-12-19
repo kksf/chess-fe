@@ -1,5 +1,5 @@
-import PieceFactory from "./pieces/PieceFactory";
-import Constant from "./Constant";
+import PieceFactory from "./pieces/PieceFactory"
+import Constant from "./Constant"
 
 class Board {
     kingsPositions = {}
@@ -17,8 +17,8 @@ class Board {
         this.kingsPositions[Constant.COLOR_WHITE] = this.findPiece(Constant.TYPE_KING, Constant.COLOR_WHITE, positions)
         this.kingsPositions[Constant.COLOR_BLACK] = this.findPiece(Constant.TYPE_KING, Constant.COLOR_BLACK, positions)
 
-        this.haveMoves[Constant.COLOR_WHITE] = false;
-        this.haveMoves[Constant.COLOR_BLACK] = false;
+        this.haveMoves[Constant.COLOR_WHITE] = false
+        this.haveMoves[Constant.COLOR_BLACK] = false
 
         for (let rowKey in positions) {
             const row = positions[rowKey];
@@ -114,11 +114,11 @@ class Board {
      */
     findPiece(type, color, positions) {
         for (const rowKey in positions) {
-            const row = positions[rowKey];
+            const row = positions[rowKey]
             for (const colKey in row) {
-                const piece = row[colKey];
+                const piece = row[colKey]
                 if (piece.type === type && piece.color === color) {
-                    return { row: +rowKey, col: +colKey };
+                    return { row: +rowKey, col: +colKey }
                 }
             }
         }
@@ -134,9 +134,9 @@ class Board {
      */
     isUnderCheck(kingPosition, positions) {
         for (const rowKey in positions) {
-            const row = positions[rowKey];
+            const row = positions[rowKey]
             for (const colKey in row) {
-                const piece = row[colKey];
+                const piece = row[colKey]
                 for(const attackRow in piece.attacks) {
                     if(
                         piece.attacks[attackRow]['row'] === kingPosition['row']

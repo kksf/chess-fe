@@ -1,4 +1,4 @@
-import Move from "./Move";
+import Move from "./Move"
 
 class MoveInLine extends Move {
     row
@@ -21,7 +21,7 @@ class MoveInLine extends Move {
     up() {
         for(let i=this.row+1; i<=this.calcMax(this.row); i++) {
             if (!this.processMove(i, this.col)) {
-                return;
+                return
             }
         }
     }
@@ -29,7 +29,7 @@ class MoveInLine extends Move {
     down() {
         for(let i=this.row-1; i>=this.calcMin(this.row); i--) {
             if (!this.processMove(i, this.col)) {
-                return;
+                return
             }
         }
     }
@@ -37,7 +37,7 @@ class MoveInLine extends Move {
     right() {
         for(let i=this.col+1; i<=this.calcMax(this.col); i++) {
             if (!this.processMove(this.row, i)) {
-                return;
+                return
             }
         }
     }
@@ -45,7 +45,7 @@ class MoveInLine extends Move {
     left() {
         for(let i=this.col-1; i>=this.calcMin(this.col); i--) {
             if (!this.processMove(this.row, i)) {
-                return;
+                return
             }
         }
     }

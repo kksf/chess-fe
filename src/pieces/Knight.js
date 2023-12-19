@@ -1,4 +1,4 @@
-import MoveKnight from "../moves/MoveKnight";
+import MoveKnight from "../moves/MoveKnight"
 
 class Knight {
     MoveKnight
@@ -17,4 +17,4 @@ class Knight {
     }
 }
 
-export default Knight;
+export default Knight

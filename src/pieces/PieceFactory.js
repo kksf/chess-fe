@@ -1,10 +1,10 @@
-import Constant from "../Constant";
-import Pawn from "./Pawn";
-import Knight from "./Knight";
-import Rook from "./Rook";
-import King from "./King";
-import Bishop from "./Bishop";
-import Queen from "./Queen";
+import Constant from "../Constant"
+import Pawn from "./Pawn"
+import Knight from "./Knight"
+import Rook from "./Rook"
+import King from "./King"
+import Bishop from "./Bishop"
+import Queen from "./Queen"
 
 class PieceFactory {
 
@@ -41,4 +41,4 @@ class PieceFactory {
 
 }
 
-export default PieceFactory;
+export default PieceFactory

@@ -1,5 +1,5 @@
-import MoveInLine from "../moves/MoveInLine";
-import MoveInDiagonal from "../moves/MoveInDiagonal";
+import MoveInLine from "../moves/MoveInLine"
+import MoveInDiagonal from "../moves/MoveInDiagonal"
 
 class King {
     MoveInLine
@@ -21,4 +21,4 @@ class King {
     }
 }
 
-export default King;
+export default King

@@ -1,4 +1,4 @@
-import Constant from "../Constant";
+import Constant from "../Constant"
 
 class MoveKnight {
     row
@@ -32,7 +32,7 @@ class MoveKnight {
             // Check move is inside the game board
             if(move.newRow > 8 || move.newRow < 1 || move.newCol > 8 || move.newCol < 1) {
                 // Outside the game board, skip this move
-                return; //continue
+                return //continue
             }
 
             // Check there is another piece at the new position
@@ -43,7 +43,7 @@ class MoveKnight {
             ) {
                 // Same color as mine piece, skip
                 if(this.positions[move.newRow][move.newCol]['color'] === this.color) {
-                    return; // continue
+                    return // continue
                 } else {
                     // enemy
                     this.attacks.push(Constant.position(move.newRow, move.newCol))

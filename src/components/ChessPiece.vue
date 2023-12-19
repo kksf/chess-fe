@@ -11,7 +11,7 @@ export default {
   },
   computed: {
     pieceClass() {
-      return `${this.type}-${this.color}`;
+      return `${this.type}-${this.color}`
     },
   },
 }

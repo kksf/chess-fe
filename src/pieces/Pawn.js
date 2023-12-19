@@ -17,4 +17,4 @@ class Pawn {
     }
 }
 
-export default Pawn;
+export default Pawn

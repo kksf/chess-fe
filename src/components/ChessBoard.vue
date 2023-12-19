@@ -90,12 +90,12 @@ export default {
     document.removeEventListener('click', this.handleClick)
   },
   updated() {
-    this.removeClassesFromCells(['check']);
+    this.removeClassesFromCells(['check'])
   },
   methods: {
     cancel() {
       delete this.game
-      localStorage.clear();
+      localStorage.clear()
       console.log('reset game')
       window.location.reload()
     },
@@ -133,11 +133,11 @@ export default {
     handleSquareClick(row, col) {
       if (!this.selectedSquare) {
         // избира
-        this.selectPiece(row, col);
+        this.selectPiece(row, col)
       } else {
         // прави ход
-        this.movePiece(this.selectedSquare, {row, col});
-        this.removeClassesFromCells(['attack', 'move', 'threat']);
+        this.movePiece(this.selectedSquare, {row, col})
+        this.removeClassesFromCells(['attack', 'move', 'threat'])
       }
     },
     getPieceAtPosition(positions=null, row, col) {
@@ -145,42 +145,42 @@ export default {
         positions = JSON.parse(JSON.stringify(this.game.positions))
       }
       if (positions[row] === undefined) {
-        return null;
+        return null
       }
-      return positions[row][col] || null;
+      return positions[row][col] || null
     },
     selectPiece(row, col) {
       if(!this.game.canMove) {
-        return;
+        return
       }
-      const piece = this.getPieceAtPosition(null, row, col);
+      const piece = this.getPieceAtPosition(null, row, col)
       if (piece && piece.color === this.game.myColor) {
       // if (piece) {
-        this.selectedSquare = {row, col};
-        this.addClassToCells([this.selectedSquare], 'selected');
-        this.addClassToCells(piece.attacks ?? [], 'attack');
-        this.addClassToCells(piece.moves ?? [], 'move');
-        this.addClassToCells(piece.threats ?? [], 'threat');
+        this.selectedSquare = {row, col}
+        this.addClassToCells([this.selectedSquare], 'selected')
+        this.addClassToCells(piece.attacks ?? [], 'attack')
+        this.addClassToCells(piece.moves ?? [], 'move')
+        this.addClassToCells(piece.threats ?? [], 'threat')
       }
     },
     movePiece(from, to) {
-      const piece = this.getPieceAtPosition(null, from.row, from.col);
-      const toPiece = this.getPieceAtPosition(null, to.row, to.col);
+      const piece = this.getPieceAtPosition(null, from.row, from.col)
+      const toPiece = this.getPieceAtPosition(null, to.row, to.col)
 
       // когато мести фигура вурху собствена фигура или на непозволена позиция
       console.log(piece.moves, to)
       if (toPiece && toPiece.color === piece.color || !piece.moves.find(item => {return item.row === to.row && item.col === to.col})) {
-        this.$refs.soundWrongMove.play();
-        this.deselectAll();
-        return;
+        this.$refs.soundWrongMove.play()
+        this.deselectAll()
+        return
       }
 
       if (toPiece) {
         // The move ends with enemy piece overtake
-        this.$refs.soundOvertake.play();
+        this.$refs.soundOvertake.play()
       } else {
         // The move ends on an empty field
-        this.$refs.soundSelectPiece.play();
+        this.$refs.soundSelectPiece.play()
       }
 
       if (piece) {
@@ -190,7 +190,7 @@ export default {
 
         // create the piece in the new square
         this.game.positions[to.row] ??= {}
-        this.game.positions[to.row][to.col] = {...piece};
+        this.game.positions[to.row][to.col] = {...piece}
 
         this.reCalculate(this.game)
         this.socket.emit('updateGame', this.game)
@@ -199,49 +199,49 @@ export default {
       this.deselectAll()
     },
     deselectAll() {
-      this.selectedSquare = null;
-      this.removeClassesFromCells(['selected', 'validMove']);
+      this.selectedSquare = null
+      this.removeClassesFromCells(['selected', 'validMove'])
     },
     decorateUnderCheck(underCheck=false) {
       if(underCheck) {
-        this.addClassToCells([{row: this.myKingPosition.row, col: this.myKingPosition.col}], 'check');
+        this.addClassToCells([{row: this.myKingPosition.row, col: this.myKingPosition.col}], 'check')
       }
     },
     addClassToCells(arr, cssClass) {
       arr.forEach(element => {
-        const cell = document.querySelector(`.sq-${element.row}-${element.col}`);
+        const cell = document.querySelector(`.sq-${element.row}-${element.col}`)
         if (cell) {
-          cell.classList.add(cssClass);
+          cell.classList.add(cssClass)
         }
-      });
+      })
     },
     removeClassesFromCells(cssClasses) {
-      const squareElements = document.querySelectorAll('.square');
+      const squareElements = document.querySelectorAll('.square')
       squareElements.forEach((squareElement) => {
         cssClasses.forEach(className => {
-          squareElement.classList.remove(className);
-        });
-      });
+          squareElement.classList.remove(className)
+        })
+      })
     },
     handleKeyPress() {
       // Escape
       if (event.keyCode === 27) {
-        console.log('Escape key pressed');
-        this.deselectAll();
+        console.log('Escape key pressed')
+        this.deselectAll()
       }
     },
     handleClick(event) {
-      let target = event.target;
-      let clickOutside = true;
+      let target = event.target
+      let clickOutside = true
       while(target) {
         if (target.classList.contains("chess-board")) {
-          clickOutside = false;
+          clickOutside = false
         }
-        target = target.parentElement;
+        target = target.parentElement
       }
       if(clickOutside) {
-        console.log('Click outside chessboard');
-        this.deselectAll();
+        console.log('Click outside chessboard')
+        this.deselectAll()
       }
     },
     clearMessages() {
@@ -252,7 +252,7 @@ export default {
     }
 
   },
-};
+}
 </script>
 
 <style scoped>

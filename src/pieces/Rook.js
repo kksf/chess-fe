@@ -1,4 +1,4 @@
-import MoveInLine from "../moves/MoveInLine";
+import MoveInLine from "../moves/MoveInLine"
 
 class Rook {
     MoveInLine
@@ -17,4 +17,4 @@ class Rook {
     }
 }
 
-export default Rook;
+export default Rook

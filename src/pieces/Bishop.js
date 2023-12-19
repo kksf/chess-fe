@@ -1,4 +1,4 @@
-import MoveInDiagonal from "../moves/MoveInDiagonal";
+import MoveInDiagonal from "../moves/MoveInDiagonal"
 
 class Bishop {
     MoveInDiagonal
@@ -17,4 +17,4 @@ class Bishop {
     }
 }
 
-export default Bishop;
+export default Bishop

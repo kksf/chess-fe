@@ -1,4 +1,4 @@
-import Move from "./Move";
+import Move from "./Move"
 
 class MoveInDiagonal extends Move {
     row
@@ -14,7 +14,7 @@ class MoveInDiagonal extends Move {
     attacks = []
 
     constructor(positions, row, col, limitToSingleStep=false) {
-        super();
+        super()
         this.positions = positions
         this.row = row
         this.col = col
