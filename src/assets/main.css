@@ -1,0 +1,57 @@
+@import './base.css';
+
+#app {
+  margin: 0 auto;
+  font-weight: normal;
+}
+  h1 {
+    display: block; padding: 0.3em;
+    background-color: black;
+  }
+    h1 b {
+      display: block;
+      float: right;
+    }
+
+a,
+.green {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
+
+.colorBtn {
+  text-align: center;
+  display: block;
+  margin-right: 1em; padding: 0.5em 2em;
+  border: 1px solid grey;
+}
+.white {
+  color: black; background-color: white;
+}
+.black {
+  color: white; background-color: black;
+}
+.any {
+  color: black; background-color: yellow;
+}
+
+/*
+@media (min-width: 1024px) {
+  body {
+    display: flex;
+  }
+
+  #app {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 2rem;
+  }
+}
+*/
