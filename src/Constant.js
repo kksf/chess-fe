@@ -14,7 +14,8 @@ class Constant {
         [this.COLOR_BLACK]: 7,
     }
 
-    static URL_BE = 'http://localhost:3000'
+    //static URL_BE = 'http://localhost:3000'
+    static URL_BE = 'https://chess-be.adaptable.app'
 
     static position(row, col) {
         return {row, col}
