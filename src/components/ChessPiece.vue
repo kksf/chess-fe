@@ -20,7 +20,7 @@ export default {
 <style scoped>
 .chess-piece {
   width: 60px; height: 60px;
-  background: url('./images/ChessPiecesArray.png') -60px 0 no-repeat;
+  background: url('/images/ChessPiecesArray.png') -60px 0 no-repeat;
 }
 	.rook-white {
 		background-position: -120px -60px;
