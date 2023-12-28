@@ -39,9 +39,18 @@ export default {
   },
   created() {
     this.socket.connect()
+
+    this.socket.on('playerCreated', (playerEntity) => {
+      console.log('playerCreated', playerEntity)
+      setInterval(() => {
+        this.socket.emit('ping', {playerId: playerEntity._id})
+      }, 5000)
+    })
+
     this.socket.on('game', (game) => {
       this.game = game;
     })
+
   },
   methods: {
     selectColor(color) {
