@@ -51,9 +51,8 @@ export default {
       this.game = game;
     })
 
-
     this.socket.on('disconnect', () => {
-      console.log('disconnected')
+      console.log('disconnected by the server, reconnecting...')
       this.socket.emit('ping', {playerId: this.game.playerId})
     })
 
