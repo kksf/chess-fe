@@ -66,13 +66,6 @@ export default {
   created() {
     console.log('created', this.game.positions)
 
-    this.socket.onAny((event, ...args) => {
-      console.log('XXXXXXXXX', event, args);
-    });
-
-
-
-
     this.game.positions = new Board().create(this.game.positions)
 
     this.socket.on('game', (data) => {
