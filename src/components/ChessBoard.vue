@@ -169,8 +169,12 @@ export default {
       const toPiece = this.getPieceAtPosition(null, to.row, to.col)
 
       // когато мести фигура вурху собствена фигура или на непозволена позиция
-      console.log(`Invalid move from ${JSON.stringify(piece)} to ${JSON.stringify(toPiece)}`)
-      if (toPiece && toPiece.color === piece.color || !piece.moves.find(item => {return item.row === to.row && item.col === to.col})) {
+      console.log(`Invalid move FROM: ${JSON.stringify(piece)} TO: ${JSON.stringify(toPiece)}`)
+      if (
+          !piece.moves.find(item => {return item.row === to.row && item.col === to.col})
+          && !piece.attacks.find(item => {return item.row === to.row && item.col === to.col})
+      ) {
+        console.log('piece.moves.find', piece.moves)
         this.$refs.soundWrongMove.play()
         this.deselectAll()
         return
