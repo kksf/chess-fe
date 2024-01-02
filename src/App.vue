@@ -52,9 +52,9 @@ export default {
     })
 
 
-    this.socket.on('disconnect', (game) => {
+    this.socket.on('disconnect', () => {
       console.log('disconnected')
-      this.socket.emit('ping', {playerId: playerEntity._id})
+      this.socket.emit('ping', {playerId: this.game.playerId})
     })
 
   },
