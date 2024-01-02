@@ -51,10 +51,11 @@ export default {
       this.game = game;
     })
 
-    this.socket.ondisconnect = () => {
+
+    this.socket.on('disconnect', (game) => {
       console.log('disconnected')
       this.socket.emit('ping', {playerId: playerEntity._id})
-    }
+    })
 
   },
   methods: {
