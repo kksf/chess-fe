@@ -237,18 +237,7 @@ export default {
         this.socket.emit('updateGame', this.game)
       }
       this.deselectAll()
-
-      // if (toPiece) {
-      //   // The move ends with enemy piece overtake
-      //   this.game.piecesTaken[this.game.enemyColor].push(toPiece.type)
-      //   this.$refs.soundOvertake.play()
-      // } else {
-      //   // The move ends on an empty field
-      //   this.$refs.soundSelectPiece.play()
-      // }
-
-
-    },
+      },
     doCommonMove(from, to, piece) {
       delete this.game.positions[from.row][from.col]
       if(piece?.moved !== undefined) {
