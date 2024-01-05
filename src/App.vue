@@ -41,7 +41,7 @@ export default {
     this.socket.connect()
 
     this.socket.on('game', (game) => {
-      this.game = game;
+      this.game = game
     })
 
     this.socket.on('disconnect', () => {
