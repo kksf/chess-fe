@@ -94,15 +94,15 @@ class Board {
                 && (positions[row][3]?.type ?? null) === null
                 && (positions[row][4]?.type ?? null) === null) {
                 const longCastingMoves = [
-                    {from: {row: row, col: 1}, to: {row: row, col: 4}},
-                    {from: {row: row, col: 5}, to: {row: row, col: 3}},
+                    {from: {row, col: 1}, to: {row, col: 4}},
+                    {from: {row, col: 5}, to: {row, col: 3}},
                 ]
                 positions[row][1]['castings'] = [{
-                    clickable: {row: row, col: 5},
+                    clickable: {row, col: 5},
                     moves: longCastingMoves
                 }]
                 positions[row][5]['castings'].push({
-                    clickable: {row: row, col: 1},
+                    clickable: {row, col: 1},
                     moves: longCastingMoves
                 })
             }
@@ -112,15 +112,15 @@ class Board {
                 && (positions[row][6]?.type ?? null) === null
                 && (positions[row][7]?.type ?? null) === null) {
                 const shortCastingMoves = [
-                    {from: {row: row, col: 8}, to: {row: row, col: 6}},
-                    {from: {row: row, col: 5}, to: {row: row, col: 7}},
+                    {from: {row, col: 8}, to: {row, col: 6}},
+                    {from: {row, col: 5}, to: {row, col: 7}},
                 ]
                 positions[row][8]['castings'] = [{
-                    clickable: {row: row, col: 5},
+                    clickable: {row, col: 5},
                     moves: shortCastingMoves
                 }]
                 positions[row][5]['castings'].push({
-                    clickable: {row: row, col: 8},
+                    clickable: {row, col: 8},
                     moves: shortCastingMoves
                 })
             }
