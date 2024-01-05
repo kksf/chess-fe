@@ -22,8 +22,8 @@
 <script>
 import ChessBoard from './components/ChessBoard.vue'
 import generateRandomString from './helpers'
-import {io} from "socket.io-client";
-import Constant from "./Constant";
+import {io} from "socket.io-client"
+import Constant from "./Constant"
 
 export default {
   name: 'App',
@@ -40,13 +40,6 @@ export default {
   created() {
     this.socket.connect()
 
-    // this.socket.on('playerCreated', (playerEntity) => {
-    //   console.log('playerCreated', playerEntity)
-    //   setInterval(() => {
-    //     this.socket.emit('ping', {playerId: playerEntity._id})
-    //   }, 5000)
-    // })
-
     this.socket.on('game', (game) => {
       this.game = game;
     })
@@ -60,12 +53,9 @@ export default {
   methods: {
     selectColor(color) {
       this.myColor = color
-      const playerId = generateRandomString(32, ['num', 'lwr', 'upr'])
       this.socket.emit('newPlayer', {
         color: color,
-        playerId,
       })
-      localStorage.setItem('playerId', playerId)
     },
   },
 }

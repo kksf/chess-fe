@@ -44,10 +44,10 @@
 </template>
 
 <script>
-import ChessPiece from './ChessPiece.vue';
-import Board from "../Board";
-import Modal from './Modal.vue';
-import Constant from "@/Constant";
+import ChessPiece from './ChessPiece.vue'
+import Board from "../Board"
+import Modal from './Modal.vue'
+import Constant from "@/Constant"
 
 export default {
   name: 'ChessBoard',
@@ -64,7 +64,7 @@ export default {
       pawnPromotionPosition: null,
       selectedSquare: null,
       gameOver: false,
-    };
+    }
   },
   props: {
     socket: {
@@ -251,7 +251,7 @@ export default {
     },
     removeMyCastings() {
       for (let rowKey in this.game.positions) {
-        const row = this.game.positions[rowKey];
+        const row = this.game.positions[rowKey]
         for (let colKey in row) {
           rowKey = +rowKey
           colKey = +colKey

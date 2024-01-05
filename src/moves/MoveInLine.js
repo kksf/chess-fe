@@ -10,7 +10,7 @@ class MoveInLine extends Move {
     attacks = []
 
     constructor(positions, row, col, limitToSingleStep=false) {
-        super();
+        super()
         this.positions = positions
         this.row = row
         this.col = col

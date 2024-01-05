@@ -41,7 +41,7 @@ class MoveInDiagonal extends Move {
             }
 
             if (!this.processMove(row, col)) {
-                return;
+                return
             }
         }
     }
@@ -59,7 +59,7 @@ class MoveInDiagonal extends Move {
             }
 
             if (!this.processMove(row, col)) {
-                return;
+                return
             }
         }
     }

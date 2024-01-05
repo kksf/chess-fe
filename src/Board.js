@@ -21,7 +21,7 @@ class Board {
         this.haveMoves[Constant.COLOR_BLACK] = false
 
         for (let rowKey in positions) {
-            const row = positions[rowKey];
+            const row = positions[rowKey]
             for (let colKey in row) {
                 rowKey = +rowKey
                 colKey = +colKey
@@ -48,10 +48,10 @@ class Board {
                     if(this.isUnderCheck(myKingPosition, tmpPositions)) {
                         positions[rowKey][colKey]['moves'] = positions[rowKey][colKey]['moves'].filter(
                             item => !(item.row === move.row && item.col === move.col)
-                        );
+                        )
                         positions[rowKey][colKey]['attacks'] = positions[rowKey][colKey]['attacks'].filter(
                             item => !(item.row === move.row && item.col === move.col)
-                        );
+                        )
                     }
                 }
 
@@ -63,19 +63,19 @@ class Board {
         positions = this.updateThreats(positions)
         positions = this.updateCastings(positions)
 
-        return positions;
+        return positions
     }
 
     updateCastings(positions) {
         [1, 8].forEach((row) => {
             // king and rooks must not be moved
-            const king = positions[row][5] ?? null;
+            const king = positions[row][5] ?? null
             console.log('king', king)
             if(king === null || king?.moved === true) {
                 return
             }
-            const rookL = positions[row][1] ?? null;
-            const rookR = positions[row][8] ?? null;
+            const rookL = positions[row][1] ?? null
+            const rookR = positions[row][8] ?? null
 
             if(rookL) {
                 positions[row][1]['castings'] = []
@@ -136,7 +136,7 @@ class Board {
      */
     updateMoves(positions) {
         for (const rowKey in positions) {
-            const row = positions[rowKey];
+            const row = positions[rowKey]
             for (const colKey in row) {
                 const PieceMoves = new PieceFactory(positions, +rowKey, +colKey).init().getMoves()
                 positions[rowKey][colKey]['moves'] = PieceMoves.moves
@@ -154,7 +154,7 @@ class Board {
      */
     updateThreats(positions) {
         for (let rowKey in positions) {
-            const row = positions[rowKey];
+            const row = positions[rowKey]
             for (let colKey in row) {
                 rowKey = +rowKey
                 colKey = +colKey
@@ -186,7 +186,7 @@ class Board {
                 }
             }
         }
-        return null;
+        return null
     }
 
     /**

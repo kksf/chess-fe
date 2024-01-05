@@ -25,7 +25,7 @@ class MovePawn {
     calcNewRow(row, distance) {
         let newRow = row - distance
         if(this.color === Constant.COLOR_WHITE) {
-            newRow = row + distance;
+            newRow = row + distance
         }
 
         if(newRow < 1 || newRow > 8) {
@@ -45,7 +45,7 @@ class MovePawn {
     go(row, distance) {
         const newRow = this.calcNewRow(row, distance)
         if(!newRow) {
-            return;
+            return
         }
 
         // attack - only on distance 1, when the Pawn is next to the enemy piece
@@ -57,7 +57,7 @@ class MovePawn {
         // Check this move is not blocked
         if(this.positions[newRow] && this.positions[newRow][this.col]) {
             // Skip, there is another piece at this position
-            return;
+            return
         }
 
         this.moves.push(Constant.position(newRow, this.col))
@@ -66,7 +66,7 @@ class MovePawn {
     addAttackPositionWhenPossible(row, col) {
         if(col < 1 || col > 8) {
             // Skip, it is outside the game board
-            return;
+            return
         }
 
         if(
