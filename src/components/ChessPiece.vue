@@ -17,7 +17,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .chess-piece {
   width: 60px; height: 60px;
   background: url('/images/ChessPiecesArray.png') -60px 0 no-repeat;

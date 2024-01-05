@@ -33,22 +33,35 @@
     <source src="/sounds/pop.mp3" type="audio/mpeg">
   </audio>
 
+  <Modal :show=this.pawnPromotionShowModal>
+    <div v-for="piece in this.game.piecesTaken[this.game.myColor].filter((el) => el !== 'pawn')"
+         @click="this.pawnPromotion(piece)"
+         :class="'chess-piece ' + piece +'-' + this.game.myColor">
+    </div>
+  </Modal>
+
+
 </template>
 
 <script>
 import ChessPiece from './ChessPiece.vue';
 import Board from "../Board";
+import Modal from './Modal.vue';
+import Constant from "@/Constant";
 
 export default {
   name: 'ChessBoard',
   components: {
     ChessPiece,
+    Modal,
   },
   data() {
     return {
       underCheck: false,
       underCheckMate: false,
       positions: {},
+      pawnPromotionShowModal: false,
+      pawnPromotionPosition: null,
       selectedSquare: null,
       gameOver: false,
     };
@@ -162,50 +175,121 @@ export default {
         this.addClassToCells(piece.attacks ?? [], 'attack')
         this.addClassToCells(piece.moves ?? [], 'move')
         this.addClassToCells(piece.threats ?? [], 'threat')
+        if(piece?.castings && (piece?.moved ?? null) === false) {
+          piece.castings.forEach(casting => {
+            this.addClassToCells([casting.clickable], 'casting')
+          })
+        }
       }
     },
     movePiece(from, to) {
       const piece = this.getPieceAtPosition(null, from.row, from.col)
       const toPiece = this.getPieceAtPosition(null, to.row, to.col)
+      let moveSuccess = false
 
-      // когато мести фигура вурху собствена фигура или на непозволена позиция
-      console.log(`Invalid move FROM: ${JSON.stringify(piece)} TO: ${JSON.stringify(toPiece)}`)
-      if (
-          !piece.moves.find(item => {return item.row === to.row && item.col === to.col})
-          && !piece.attacks.find(item => {return item.row === to.row && item.col === to.col})
-      ) {
-        console.log('piece.moves.find', piece.moves)
-        this.$refs.soundWrongMove.play()
-        this.deselectAll()
-        return
+      // Casting
+      if(toPiece && piece.color === toPiece.color && piece.castings && toPiece.castings) {
+        const entry = piece.castings.find(item => {return item.clickable.row === to.row && item.clickable.col === to.col})
+        if(entry) {
+          moveSuccess = true
+          entry.moves.forEach(move => {
+            const castPiece = this.game.positions[move.from.row][move.from.col]
+            castPiece.moved = true
+            delete this.game.positions[move.from.row][move.from.col]
+            this.game.positions[move.to.row] ??= {}
+            this.game.positions[move.to.row][move.to.col] = {...castPiece}
+          })
+          this.removeMyCastings()
+        }
       }
 
-      if (toPiece) {
-        // The move ends with enemy piece overtake
+      // Overtake enemy piece
+      if (toPiece && piece.attacks.find(item => {return item.row === to.row && item.col === to.col})) {
+        moveSuccess = true
+        this.doCommonMove(from, to, piece)
+        this.game.piecesTaken[this.game.enemyColor].push(toPiece.type)
         this.$refs.soundOvertake.play()
-      } else {
-        // The move ends on an empty field
+      }
+
+      // Normal move on empty field
+      if(piece.moves.find(item => {return item.row === to.row && item.col === to.col})) {
+        moveSuccess = true
+        this.doCommonMove(from, to, piece)
         this.$refs.soundSelectPiece.play()
       }
 
-      if (piece) {
+      // pawn promotion
+      if(
+          piece.type === Constant.TYPE_PAWN
+          && (to.row === 1 || to.row === 8)
+          && this.game.piecesTaken[this.game.myColor].filter((el) => el !== Constant.TYPE_PAWN).length > 0) {
+        moveSuccess = true
+        this.pawnPromotionPosition = to
+        this.pawnPromotionShowModal = true
+      }
+
+      if (!moveSuccess) {
+        console.log(`Invalid move FROM: ${JSON.stringify(piece)} TO: ${JSON.stringify(toPiece)}`)
+        this.$refs.soundWrongMove.play()
+      } else {
         this.game.canMove = false
-        // remove the piece from the old square
-        delete this.game.positions[from.row][from.col]
-
-        // create the piece in the new square
-        this.game.positions[to.row] ??= {}
-        this.game.positions[to.row][to.col] = {...piece}
-
         this.reCalculate(this.game)
         this.socket.emit('updateGame', this.game)
       }
-
       this.deselectAll()
+
+      // if (toPiece) {
+      //   // The move ends with enemy piece overtake
+      //   this.game.piecesTaken[this.game.enemyColor].push(toPiece.type)
+      //   this.$refs.soundOvertake.play()
+      // } else {
+      //   // The move ends on an empty field
+      //   this.$refs.soundSelectPiece.play()
+      // }
+
+
+    },
+    doCommonMove(from, to, piece) {
+      delete this.game.positions[from.row][from.col]
+      if(piece?.moved !== undefined) {
+        piece.moved = true
+      }
+      if(piece?.type === Constant.TYPE_KING) {
+        this.removeMyCastings()
+      }
+      this.game.positions[to.row] ??= {}
+      this.game.positions[to.row][to.col] = {...piece}
+    },
+    removeMyCastings() {
+      for (let rowKey in this.game.positions) {
+        const row = this.game.positions[rowKey];
+        for (let colKey in row) {
+          rowKey = +rowKey
+          colKey = +colKey
+          const piece = this.game.positions[rowKey][colKey]
+          if(
+              (piece?.type ?? null) !== null
+              && piece.color === this.game.myColor
+              && [Constant.TYPE_ROOK, Constant.TYPE_KING].includes(piece.type)) {
+            delete piece.castings
+          }
+        }
+      }
+    },
+    pawnPromotion(piece) {
+      console.log('this.game.canMove', this.game.canMove)
+      this.pawnPromotionShowModal = false
+      this.game.piecesTaken[this.game.myColor].splice(this.game.piecesTaken[this.game.myColor].indexOf(piece), 1)
+      this.game.positions[this.pawnPromotionPosition.row][this.pawnPromotionPosition.col] = {
+        type: piece,
+        color: this.game.myColor,
+      }
+      this.reCalculate(this.game)
+      this.socket.emit('updateGame', this.game)
     },
     deselectAll() {
       this.selectedSquare = null
-      this.removeClassesFromCells(['selected', 'validMove'])
+      this.removeClassesFromCells(['selected', 'validMove', 'casting'])
     },
     decorateUnderCheck(underCheck=false) {
       if(underCheck) {
@@ -260,7 +344,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .chess-board {
   display: grid;
   border: 1px solid red;
@@ -317,5 +401,19 @@ p.info {
 .square.threat {
   border-style: dashed;
 }
+.square.casting {
+  background-color: #9090FF !important;
+}
+
+.modal .chess-piece {
+  background-color: grey;
+  float: left;
+  margin: 0 0.2em;
+  cursor: pointer;
+}
+.modal .chess-piece:hover {
+  background-color: darkgrey;
+}
+
 </style>
 

@@ -61,8 +61,72 @@ class Board {
             }
         }
         positions = this.updateThreats(positions)
+        positions = this.updateCastings(positions)
 
         return positions;
+    }
+
+    updateCastings(positions) {
+        [1, 8].forEach((row) => {
+            // king and rooks must not be moved
+            const king = positions[row][5] ?? null;
+            console.log('king', king)
+            if(king === null || king?.moved === true) {
+                return
+            }
+            const rookL = positions[row][1] ?? null;
+            const rookR = positions[row][8] ?? null;
+
+            if(rookL) {
+                positions[row][1]['castings'] = []
+            }
+            if(rookR) {
+                positions[row][8]['castings'] = []
+            }
+            // king
+            positions[row][5]['castings'] = []
+
+            // check that there are no pieces between king and rook
+            console.log('positions 2 3 4', positions[row][2]?.type, positions[row][3]?.type, positions[row][4]?.type)
+            if(rookL
+                && rookL.moved === false
+                && (positions[row][2]?.type ?? null) === null
+                && (positions[row][3]?.type ?? null) === null
+                && (positions[row][4]?.type ?? null) === null) {
+                const longCastingMoves = [
+                    {from: {row: row, col: 1}, to: {row: row, col: 4}},
+                    {from: {row: row, col: 5}, to: {row: row, col: 3}},
+                ]
+                positions[row][1]['castings'] = [{
+                    clickable: {row: row, col: 5},
+                    moves: longCastingMoves
+                }]
+                positions[row][5]['castings'].push({
+                    clickable: {row: row, col: 1},
+                    moves: longCastingMoves
+                })
+            }
+
+            if(rookR
+                && rookR?.moved === false
+                && (positions[row][6]?.type ?? null) === null
+                && (positions[row][7]?.type ?? null) === null) {
+                const shortCastingMoves = [
+                    {from: {row: row, col: 8}, to: {row: row, col: 6}},
+                    {from: {row: row, col: 5}, to: {row: row, col: 7}},
+                ]
+                positions[row][8]['castings'] = [{
+                    clickable: {row: row, col: 5},
+                    moves: shortCastingMoves
+                }]
+                positions[row][5]['castings'].push({
+                    clickable: {row: row, col: 8},
+                    moves: shortCastingMoves
+                })
+            }
+        })
+
+        return positions
     }
 
     /**
